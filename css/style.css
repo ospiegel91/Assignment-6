@@ -1,0 +1,35 @@
+
+
+.outerContainer{
+    position: relative;
+    margin: auto auto;
+    width: 98%;
+    height: 600px;
+    background-color: beige;
+}
+#canvas{
+    position: absolute;
+    height: 96%;
+    width: 69%;
+    margin-top: 1%;
+    margin-left: 1%;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.rowContainer{
+    width: 100%;
+    border: black solid thin;
+    background-color: red;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.unitBox{
+    background-color: azure;
+    height: 100%;
+    border: black solid thin;
+}
