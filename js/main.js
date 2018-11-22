@@ -2,14 +2,27 @@ var minecraft = {};
 
 
 $(document).ready(function () {
-    var columns = 20;
-    var rows = 20;
-    minecraft.initiateCanvas(rows, columns);
-    var matrix = minecraft.matrix(rows, columns);
-    var theme1 = minecraft.applyTheme1(matrix);
-    minecraft.connectMatrixTheme(theme1, rows);
-    minecraft.storePosition(matrix, rows);
+    var canvas = $("#canvas");
+    canvas.css("display", "none");
 
+    $("#newGameBtn").on("click", launch);
+
+    function launch() {
+        $(".mainMenu").css("display", "none");
+        canvas.css("display", "flex");
+        var columns = 20;
+        var rows = 20;
+        minecraft.initiateCanvas(rows, columns);
+        var matrix = minecraft.matrix(rows, columns);
+        var theme1 = minecraft.applyTheme1(matrix);
+        minecraft.connectMatrixTheme(theme1, rows);
+        minecraft.storePosition(matrix, rows);
+
+        $("#pickaxe-container").on("click", minecraft.setTool);
+        $("#shovel-container").on("click", minecraft.setTool);
+        $("#axe-container").on("click", minecraft.setTool);
+
+    }
 
 });
 
@@ -40,15 +53,10 @@ minecraft.matrix = function (x, y) {
     return arrOfArrs;
 
 }
-minecraft.applyTheme1 = function(matrix){
-    for (var i = 0; i < 8; i++) {
+minecraft.applyTheme1 = function (matrix) {
+    for (var i = 0; i < 11; i++) {
         for (var j = 0; j < matrix[i].length; j++) {
             matrix[i][j] = "sky";
-        }
-    }
-    for (var i = 8; i < 11; i++) {
-        for (var j = 0; j < matrix[i].length; j++) {
-            matrix[i][j] = "Gold";
         }
     }
     for (var i = 11; i < 12; i++) {
@@ -61,10 +69,61 @@ minecraft.applyTheme1 = function(matrix){
             matrix[i][j] = "Dirt";
         }
     }
+
+    //tree
+    matrix[7][2] = "Wood";
+    matrix[8][2] = "Wood";
+    matrix[9][2] = "Wood";
+    matrix[10][2] = "Wood";
+    matrix[4][1] = "Leaves";
+    matrix[4][2] = "Leaves";
+    matrix[4][3] = "Leaves";
+    matrix[5][1] = "Leaves";
+    matrix[5][2] = "Leaves";
+    matrix[5][3] = "Leaves";
+    matrix[6][1] = "Leaves";
+    matrix[6][2] = "Leaves";
+    matrix[6][3] = "Leaves";
+    matrix[7][1] = "Leaves";
+    matrix[7][2] = "Leaves";
+    matrix[7][3] = "Leaves";
+
+    //goldMine
+    matrix[9][7] = "Gold";
+    matrix[9][8] = "Gold";
+    matrix[10][7] = "Gold";
+    matrix[10][8] = "Gold";
+    matrix[7][7] = "Gold";
+    matrix[7][8] = "Gold";
+    matrix[8][7] = "Gold";
+    matrix[8][8] = "Gold";
+    //cloud 
+    matrix[3][14]= "Cloud";
+    matrix[3][15]= "Cloud";
+    matrix[3][16]= "Cloud";
+    matrix[4][13]= "Cloud";
+    matrix[4][14]= "Cloud";
+    matrix[4][15]= "Cloud";
+    matrix[5][12]= "Cloud";
+    matrix[5][13]= "Cloud";
+    matrix[5][14]= "Cloud";
+    //Water
+    matrix[11][17]= "Water";
+    matrix[11][18]= "Water";
+    matrix[11][19]= "Water";
+    matrix[12][18]= "Water";
+    matrix[12][19]= "Water";
+    matrix[13][19]= "Water";
+    //TNT
+    matrix[10][14]= "Tnt";
+    matrix[10][15]= "Tnt";
+    matrix[9][14]= "Tnt";
+    matrix[9][15]= "Tnt";
+
     console.log(matrix);
     return matrix;
 }
-minecraft.connectMatrixTheme = function(theme1, x){
+minecraft.connectMatrixTheme = function (theme1, x) {
     var cells = $(".unitBox");
     for (var i = 0; i < theme1.length; i++) {
         for (var j = 0; j < theme1[i].length; j++) {
@@ -74,6 +133,7 @@ minecraft.connectMatrixTheme = function(theme1, x){
     }
     return;
 }
+
 
 minecraft.storePosition = function (matrix, x) {
     var cells = $(".unitBox");
@@ -85,7 +145,34 @@ minecraft.storePosition = function (matrix, x) {
         }
     }
 }
+minecraft.setTool = function(event){
+    var currentTool = event.target.value;
+    minecraft.changeTile(currentTool);
+}
 
+
+minecraft.changeTile = function (toolSelected){
+    var cells = $(".unitBox");
+    cells.on("click", changeThisTile);
+    
+    function changeThisTile(){
+        var clicked = $(this);
+        var classes = ["Gold","Wood","Dirt","Grass"];
+        var tools = ["pickaxe","axe","shovel","shovel"];
+        var changeToArr = ["sky","sky", "sky","sky"];
+        for(var i=0; i<tools.length; i++){
+            if(tools[i]===toolSelected){
+                var classAtStake = classes[i];
+                var changeToTile = changeToArr[i];
+                clicked.addClass(changeToTile);
+                clicked.removeClass(classAtStake);
+                $("#current-tool").addClass(classAtStake)
+            }
+        }
+    }
+    
+    return;
+}
 
 // minecraft.matrix = [
 //     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
