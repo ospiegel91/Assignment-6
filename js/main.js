@@ -5,6 +5,8 @@ $(document).ready(function () {
     var canvas = $("#canvas");
     canvas.css("display", "none");
     $("#newGameBtn").on("click", launch);
+    $("#instructionsButton").on("click", minecraft.showInstructions);
+    $(".instructionsContainer").css("display","none");
 
     function launch() {
         $(".mainMenu").css("display", "none");
@@ -26,7 +28,9 @@ $(document).ready(function () {
     }
 
 });
-
+minecraft.showInstructions = function(){
+    $(".instructionsContainer").css("display","flex");
+}
 minecraft.initiateCanvas = function () {
     var y = 20;
     var x = 20;
@@ -132,10 +136,17 @@ minecraft.setInventory = function () {
         minecraft.matrix[i][j] = "outOfPlay";
         $("#current-tool").val("");
     } else {
-        minecraft.matrix[i][j] = "sky";
-        $("#current-tool").val(changeTo);
-        $("#current-tool").addClass(changeTo);
-
+        if(minecraft.matrix[i][j]==="sky"){
+            minecraft.matrix[i][j] = changeTo;
+        }else{
+            minecraft.matrix[i][j] = "sky";
+        }
+        if(changeTo!=="sky"){
+            $("#current-tool").val(changeTo);
+            $("#current-tool").addClass(changeTo);
+        }else{
+            $("#current-tool").val("");
+        }
     }
 
 }
@@ -190,6 +201,7 @@ minecraft.useInventory = function () {
         $("#current-tool").removeClass(changeTo);
         $("#current-tool").val("");
         $(".sky").off();
+        $(this).off("click", placeTile);
     }
 }
 
