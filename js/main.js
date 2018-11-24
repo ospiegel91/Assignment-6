@@ -4,31 +4,33 @@ var minecraft = {};
 $(document).ready(function () {
     var canvas = $("#canvas");
     canvas.css("display", "none");
-
     $("#newGameBtn").on("click", launch);
 
     function launch() {
         $(".mainMenu").css("display", "none");
         canvas.css("display", "flex");
-        var columns = 20;
-        var rows = 20;
-        minecraft.initiateCanvas(rows, columns);
-        var matrix = minecraft.matrix(rows, columns);
-        var theme1 = minecraft.applyTheme1(matrix);
-        minecraft.connectMatrixTheme(theme1, rows);
-        minecraft.storePosition(matrix, rows);
-        
+        minecraft.initiateCanvas();
+        var matrix = minecraft.matrix;
+        minecraft.connectMatrixTheme(matrix);
+        minecraft.storePosition(matrix);
         $("#pickaxe-container").on("click", minecraft.activatePickaxe);
+        $("#pickaxe-container").on("click", minecraft.activeToolColor);
         $("#shovel-container").on("click", minecraft.activateShovel);
+        $("#shovel-container").on("click", minecraft.activeToolColor);
         $("#axe-container").on("click", minecraft.activateAxe);
-
+        $("#axe-container").on("click", minecraft.activeToolColor);
+        $("#torch-container").on("click", minecraft.activateTorch);
+        $("#torch-container").on("click", minecraft.activeToolColor);
         $("#current-tool").on("click", minecraft.useInventory);
-
+        
     }
 
 });
 
-minecraft.initiateCanvas = function (x, y) {
+minecraft.initiateCanvas = function () {
+    var y = 20;
+    var x = 20;
+
     var canvas = $("#canvas");
     for (var i = 0; i < x; i++) {
         var row = $("<div></div>");
@@ -43,101 +45,44 @@ minecraft.initiateCanvas = function (x, y) {
         }
     }
 }
-minecraft.matrix = function (x, y) {
-    var arrOfArrs = [];
-    for (var i = 0; i < x; i++) {
-        arrOfArrs[i] = [];
-        for (var j = 0; j < y; j++) {
-            arrOfArrs[i][j] = "";
-        }
-    }
-    console.log(arrOfArrs);
-    return arrOfArrs;
 
-}
-minecraft.applyTheme1 = function (matrix) {
-    for (var i = 0; i < 11; i++) {
-        for (var j = 0; j < matrix[i].length; j++) {
-            matrix[i][j] = "sky";
-        }
-    }
-    for (var i = 11; i < 12; i++) {
-        for (var j = 0; j < matrix[i].length; j++) {
-            matrix[i][j] = "Grass";
-        }
-    }
-    for (var i = 12; i < 20; i++) {
-        for (var j = 0; j < matrix[i].length; j++) {
-            matrix[i][j] = "Dirt";
-        }
-    }
+minecraft.matrix = [
+    ["sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky"],
+    ["sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky"],
+    ["sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky"],
+    ["sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "Cloud", "Cloud", "Cloud", "sky", "sky", "sky"],
+    ["sky", "Leaves", "Leaves", "Leaves", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "Cloud", "Cloud", "Cloud", "sky", "sky", "sky", "sky"],
+    ["sky", "Leaves", "Leaves", "Leaves", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "Cloud", "Cloud", "Cloud", "sky", "sky", "sky", "sky", "sky"],
+    ["sky", "Leaves", "Leaves", "Leaves", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky"],
+    ["sky", "Leaves", "Leaves", "Leaves", "sky", "sky", "sky", "Gold", "Gold", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky"],
+    ["sky", "sky", "Wood", "sky", "sky", "sky", "sky", "Gold", "Gold", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky", "sky"],
+    ["sky", "sky", "Wood", "sky", "sky", "sky", "sky", "Gold", "Gold", "sky", "sky", "sky", "sky", "sky", "Tnt", "Tnt", "sky", "sky", "sky", "sky"],
+    ["sky", "sky", "Wood", "sky", "sky", "sky", "sky", "Gold", "Gold", "sky", "sky", "sky", "sky", "sky", "Tnt", "Tnt", "sky", "sky", "sky", "sky"],
+    ["Grass", "Grass", "Grass", "Grass", "Grass", "Grass", "Grass", "Grass", "Grass", "Grass", "Grass", "Grass", "Grass", "Grass", "Grass", "Grass", "Grass", "Water", "Water", "Water"],
+    ["Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Water", "Water"],
+    ["Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Water"],
+    ["Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt"],
+    ["Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt"],
+    ["Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt"],
+    ["Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt"],
+    ["Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt"],
+    ["Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt", "Dirt"]
+];
 
-    //tree
-    matrix[7][2] = "Wood";
-    matrix[8][2] = "Wood";
-    matrix[9][2] = "Wood";
-    matrix[10][2] = "Wood";
-    matrix[4][1] = "Leaves";
-    matrix[4][2] = "Leaves";
-    matrix[4][3] = "Leaves";
-    matrix[5][1] = "Leaves";
-    matrix[5][2] = "Leaves";
-    matrix[5][3] = "Leaves";
-    matrix[6][1] = "Leaves";
-    matrix[6][2] = "Leaves";
-    matrix[6][3] = "Leaves";
-    matrix[7][1] = "Leaves";
-    matrix[7][2] = "Leaves";
-    matrix[7][3] = "Leaves";
-
-    //goldMine
-    matrix[9][7] = "Gold";
-    matrix[9][8] = "Gold";
-    matrix[10][7] = "Gold";
-    matrix[10][8] = "Gold";
-    matrix[7][7] = "Gold";
-    matrix[7][8] = "Gold";
-    matrix[8][7] = "Gold";
-    matrix[8][8] = "Gold";
-    //cloud 
-    matrix[3][14] = "Cloud";
-    matrix[3][15] = "Cloud";
-    matrix[3][16] = "Cloud";
-    matrix[4][13] = "Cloud";
-    matrix[4][14] = "Cloud";
-    matrix[4][15] = "Cloud";
-    matrix[5][12] = "Cloud";
-    matrix[5][13] = "Cloud";
-    matrix[5][14] = "Cloud";
-    //Water
-    matrix[11][17] = "Water";
-    matrix[11][18] = "Water";
-    matrix[11][19] = "Water";
-    matrix[12][18] = "Water";
-    matrix[12][19] = "Water";
-    matrix[13][19] = "Water";
-    //TNT
-    matrix[10][14] = "Tnt";
-    matrix[10][15] = "Tnt";
-    matrix[9][14] = "Tnt";
-    matrix[9][15] = "Tnt";
-
-    console.log(matrix);
-    return matrix;
-}
-minecraft.connectMatrixTheme = function (theme1, x) {
+minecraft.connectMatrixTheme = function (matrix) {
+    var x = 20;
     var cells = $(".unitBox");
-    for (var i = 0; i < theme1.length; i++) {
-        for (var j = 0; j < theme1[i].length; j++) {
+    for (var i = 0; i < matrix.length; i++) {
+        for (var j = 0; j < matrix[i].length; j++) {
             cells.eq(i * x + j)
-                .addClass(theme1[i][j]);
+                .addClass(matrix[i][j]);
         }
     }
     return;
 }
 
-
-minecraft.storePosition = function (matrix, x) {
+minecraft.storePosition = function (matrix) {
+    var x = 20;
     var cells = $(".unitBox");
     for (var i = 0; i < matrix.length; i++) {
         for (var j = 0; j < matrix[i].length; j++) {
@@ -146,6 +91,10 @@ minecraft.storePosition = function (matrix, x) {
                 .data("j", j);
         }
     }
+}
+minecraft.activeToolColor = function(){
+    $(".tool-container").css("background-color","crimson");
+    $(this).css("background-color","rgb(90, 255, 57)");
 }
 
 minecraft.activatePickaxe = function () {
@@ -166,15 +115,29 @@ minecraft.activateAxe = function () {
     $(".Wood").on("click", minecraft.turnToSky);
 }
 
-minecraft.setInventory = function(){
+minecraft.activateTorch = function () {
+    $(".unitBox").off();
+    $(".Tnt").on("click", minecraft.setInventory);
+    $(".Tnt").on("click", minecraft.turnToDust);
+    $(".Leaves").on("click", minecraft.burnTree);
+}
+
+minecraft.setInventory = function () {
     var i = $(this).data('i');
     var j = $(this).data('j');
-    var changeTo = minecraft.applyTheme1(minecraft.matrix(20,20))[i][j];
+    var changeTo = minecraft.matrix[i][j];
     $("#current-tool").removeClass();
     $("#current-tool").addClass("currentToolContainer");
-    $("#current-tool").addClass(changeTo);
-    $("#current-tool").val(changeTo);
-    minecraft.applyTheme1(minecraft.matrix(20,20))[i][j]==="sky";
+    if (changeTo === "Leaves" || changeTo === "Tnt") {
+        minecraft.matrix[i][j] = "outOfPlay";
+        $("#current-tool").val("");
+    } else {
+        minecraft.matrix[i][j] = "sky";
+        $("#current-tool").val(changeTo);
+        $("#current-tool").addClass(changeTo);
+
+    }
+
 }
 
 minecraft.turnToSky = function () {
@@ -183,41 +146,51 @@ minecraft.turnToSky = function () {
     $(this).addClass("sky");
 }
 
+minecraft.turnToDust = function () {
+    $(".Tnt").addClass("Black");
+    $(".Black").removeClass("Tnt");
+    $(".Cloud").addClass("Darkgrey");
+    $(".Darkgrey").removeClass("Cloud");
+}
+
+minecraft.burnTree = function () {
+    var numOfLeaves = $(".Leaves").length;
+    var i = 0;
+    setTimeout(pollute, 3000);
+    function fire() {
+        var leaves = $(".Leaves");
+        leaves.eq(0)
+            .addClass("Fire")
+            .removeClass("Leaves");
+        i++;
+        if (i < numOfLeaves) {
+            setTimeout(fire, 500);
+        }
+    }
+    fire();
+    function pollute() {
+        $(".Cloud").addClass("Darkgrey");
+        $(".Darkgrey").removeClass("Cloud");
+    }
+}
+
+
 minecraft.useInventory = function () {
     var changeTo = $(this).val();
-    if(changeTo==""){
+    if (changeTo == "") {
         return;
     }
     $(".sky").on("click", placeTile);
-    function placeTile(){
+    function placeTile() {
+        var i = $(this).data('i');
+        var j = $(this).data('j');
+        minecraft.matrix[i][j] = changeTo;
         $(this).removeClass("sky");
         $(this).addClass(changeTo);
         $("#current-tool").removeClass(changeTo);
-        $("#current-tool").val(changeTo);
+        $("#current-tool").val("");
         $(".sky").off();
     }
 }
 
 
-// minecraft.matrix = [
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""],
-//     ["", "", "", "", "","", "", "", "", "","", "", "", "", "","", "", "", "", ""]
-// ];

@@ -5,11 +5,13 @@
     height: 600px;
     background-image: url("https://i.redd.it/1w64wb4whme11.jpg");
     background-size: cover;
-    
 }
+
 .mainMenu{
     font-family: 'Orbitron', sans-serif;
+    color: rgb(29, 175, 29)
 }
+
 .inner-menu-container{
     position: absolute;
     height: 96%;
@@ -36,6 +38,7 @@
     font-weight: 500;
     text-shadow: 2px 2px white;
 }
+
 #canvas{
     position: absolute;
     height: 96%;
@@ -47,13 +50,11 @@
     flex-direction: column;
 }
 
-
 .rowContainer{
     width: 100%;
     background-color: white;
     display: flex;
     flex-direction: row;
-
 }
 
 .unitBox{
@@ -63,8 +64,6 @@
 
 .unitBox:hover{
     opacity: 0.8;
-    
-    
 }
 
 .dashboard{
@@ -73,10 +72,11 @@
     width: 18%;
     margin-top: 1%;
     margin-left: 81%;
-    background-color: darkslateblue;
+    background-image: url("http://yonohablo.co/wp-content/uploads/2018/08/obsidian-tile-expand-carpet-tile-obsidian-x-sq-ft-ctn-obsidian-totem-thaumcraft-4-obsidian-totem-minecraft.jpg");
+    background-size: cover;
     display: flex;
     flex-direction: column;
-
+    border-radius: 12%;
 }
 
 .dashboard h4{
@@ -88,11 +88,23 @@
     font-size: 0.8em;
     font-family: 'Orbitron', sans-serif;
 }
+
+.dashboard  h5{
+    width: 100%;
+    margin-top: 8%;
+    margin-bottom: 0;
+    padding: 0;
+    font-size: 0.9em;
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    color: white;
+}
+
 .tool-container{
     position: relative;
     height: 15%;
     width: 45%;
-    margin-top: 15%;
+    margin-top: 9%;
     margin-left: auto;
     margin-right: auto;
     background-color: crimson;
@@ -100,16 +112,18 @@
     background-repeat: no-repeat;
     background-position: 50%;
     background-size: 70%;
+    outline: none;
+    
 }
 
 .currentToolContainer{
     height: 12%;
     width: 35%;
-    margin-top: 20%;
+    margin-top: 1%;
     margin-left: auto;
     margin-right: auto;
     background-color: white;
-    
+    outline: none;
 }
 
 #pickaxe-container{
@@ -125,6 +139,10 @@
 #axe-container{
     background-image: url("../images/tools/axeTool.png");
     background-position-y: 5%;
+}
+
+#torch-container{
+    background-image: url("../images/tools/torch.png");
 }
 
 .Dirt{
@@ -146,8 +164,21 @@
     background-color: lightblue;
     background-size: 100% 100%;
 }
+.Darkgrey{
+    background-color: darkgrey;
+    background-size: 100% 100%;
+}
+
+.Black{
+    background-color: black;
+    background-size: 100% 100%;
+}
 .Cloud{
     background-color: rgb(243, 236, 236);
+    background-size: 100% 100%;
+}
+.Fire{
+    background-color: red;
     background-size: 100% 100%;
 }
 .Wood{
