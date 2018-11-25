@@ -187,6 +187,9 @@ minecraft.burnTree = function () {
 
 
 minecraft.useInventory = function () {
+    $(".unitBox").off();
+    $(".tool-container").css("background-color","crimson");
+    
     var changeTo = $(this).val();
     if (changeTo == "") {
         return;
@@ -195,6 +198,7 @@ minecraft.useInventory = function () {
     function placeTile() {
         var i = $(this).data('i');
         var j = $(this).data('j');
+        
         minecraft.matrix[i][j] = changeTo;
         $(this).removeClass("sky");
         $(this).addClass(changeTo);
@@ -202,6 +206,8 @@ minecraft.useInventory = function () {
         $("#current-tool").val("");
         $(".sky").off();
         $(this).off("click", placeTile);
+        $(this).off("click", minecraft.turnToSky);
+
     }
 }
 
